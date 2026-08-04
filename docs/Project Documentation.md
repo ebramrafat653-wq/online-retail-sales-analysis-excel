@@ -167,11 +167,88 @@ Overall, the assessment identified several areas requiring further review, parti
 
 ## 8. Data Cleaning Process
 
-*[Each cleaning step will be documented during execution]*
+The objective of this phase was to improve data reliability while preserving as much valid business information as possible. Cleaning decisions were based on data validation rather than assumptions to avoid removing legitimate transactions.
+
+### 8.1 Data Type Validation
+
+All columns were reviewed, and their data types were verified before performing any transformation to ensure subsequent operations were applied correctly.
+
+### 8.2 Exact Duplicate Removal
+
+Potential duplicate records were initially identified during the Data Quality Assessment using Group By across all columns.
+
+A sample of duplicate groups was manually reviewed to confirm that the duplicated records were identical across every column. After validation, Remove Duplicates was applied using all columns.
+
+Cleaning Summary
+
+- Initial rows: 541,910
+- Duplicate rows removed: 5,269
+- Final rows after deduplication: 536,641
+
+### 8.3 Missing CustomerID
+
+After duplicate removal, 135,037 records (approximately 25.16%) still contained missing CustomerID values.
+
+These records were retained because they contain valid transactional information (InvoiceNo, StockCode, Quantity, UnitPrice, and InvoiceDate). Missing CustomerID only affects customer-level analysis and does not impact sales analysis.
+
+Decision: Retained.
+
+### 8.4 Missing Description
+
+A total of 1,454 records contained missing Description values.
+
+These records were retained because the corresponding StockCode remained available, allowing products to be identified where necessary.
+
+Decision: Retained.
+
+### 8.5 Zero UnitPrice Validation
+
+A total of 2,510 records had UnitPrice = 0.
+
+Further investigation showed that these records were not limited to inventory adjustments. Some contained positive quantities, suggesting that they may represent legitimate business events such as promotional items, free samples, or internal transactions.
+
+Since there was insufficient evidence to classify these records as invalid data, they were retained.
+
+Decision: Retained.
+
+### 8.6 Inventory Adjustment Investigation
+
+Negative quantity records without an InvoiceNo beginning with "C" were investigated separately.
+
+These records showed characteristics different from standard customer cancellations, including:
+
+- UnitPrice = 0
+- Descriptions such as Damage, Broken, Missing, and similar operational terms
+- Transactions distributed throughout the analysis period
+
+Rather than removing these records, they were retained because they appear to represent legitimate inventory adjustments rather than data quality issues.
+
+Decision: Retained.
+
+Cleaning Outcome
+
+Only exact duplicate records were removed during the cleaning process. All other identified issues were investigated individually and retained because they represent valid business scenarios rather than invalid data.
 
 ---
 
-## 9. KPI Definitions
+## 9. Feature Engineering
+
+Feature Engineering was performed after completing Data Cleaning to create additional fields that simplify business analysis, improve reporting, and support dashboard development. These derived features help transform raw transactional data into a more analytical and decision-ready structure for business reporting.
+
+| Engineered Feature | Description | Business Purpose |
+|---|---|---|
+| Revenue | Formula: Quantity × UnitPrice | Calculate the sales amount for each transaction and support revenue analysis. |
+| TransactionType | Values: Sale, Cancellation, Inventory Adjustment | Classify transactions for sales, cancellations, and inventory adjustment analysis. |
+| Year | Extracted from InvoiceDate | Enable yearly trend analysis and filtering. |
+| MonthNumber | Extracted from InvoiceDate | Preserve the correct chronological order of months in reports and visualizations. |
+| MonthName | Extracted from InvoiceDate | Provide readable month labels for dashboards and reports. |
+| YearMonth | Derived from InvoiceDate in YYYY-MM format | Support monthly trend analysis and ensure chronological sorting. |
+
+The engineered features were created to improve analytical flexibility while preserving the original transactional data. These additional fields simplify time-based analysis, revenue calculations, transaction categorization, and dashboard development without modifying the source dataset.
+
+---
+
+## 10. KPI Definitions
 
 *[To be added later]*
 

@@ -233,18 +233,20 @@ Only exact duplicate records were removed during the cleaning process. All other
 
 ## 9. Feature Engineering
 
-Feature Engineering was performed after completing Data Cleaning to create additional fields that simplify business analysis, improve reporting, and support dashboard development. These derived features help transform raw transactional data into a more analytical and decision-ready structure for business reporting.
+Feature engineering was performed after Data Cleaning to create a concise set of analytical fields that simplify transactional reporting, support time-based analysis, and provide consistent business classifications for dashboard development. All engineered fields are derived from existing transactional columns and the original data is preserved.
 
-| Engineered Feature | Description | Business Purpose |
-|---|---|---|
-| Revenue | Formula: Quantity × UnitPrice | Calculate the sales amount for each transaction and support revenue analysis. |
-| TransactionType | Values: Sale, Cancellation, Inventory Adjustment | Classify transactions for sales, cancellations, and inventory adjustment analysis. |
-| Year | Extracted from InvoiceDate | Enable yearly trend analysis and filtering. |
-| MonthNumber | Extracted from InvoiceDate | Preserve the correct chronological order of months in reports and visualizations. |
-| MonthName | Extracted from InvoiceDate | Provide readable month labels for dashboards and reports. |
-| YearMonth | Derived from InvoiceDate in YYYY-MM format | Support monthly trend analysis and ensure chronological sorting. |
+| Engineered Feature | Derivation / Logic | Data Type | Business Purpose |
+|---|---:|---|---|
+| Revenue | Formula: [Quantity] * [UnitPrice] | Decimal Number | Calculate transaction-level revenue and support revenue and contribution analysis. |
+| TransactionType | Derived during data preparation using `InvoiceNo` patterns, `Quantity` and business rules; values: "Sale", "Cancellation", "Inventory Adjustment" | Text (enumeration) | Classify transactions consistently for sales, cancellation/return, and inventory adjustment analysis. Note: created in data preparation but treated as an engineered analytical feature. |
+| Year | Derived from `InvoiceDate` (calendar year) | Whole Number | Support yearly filtering and time-based comparisons. |
+| MonthNumber | Derived from `InvoiceDate` (1–12) | Whole Number | Preserve chronological month ordering and serve as a sorting key for `MonthName`. |
+| MonthName | Derived from `InvoiceDate` (English month names) | Text | Provide readable month labels for reports, Pivot Tables, and dashboards. |
+| YearMonth | Derived from `InvoiceDate` and formatted as `YYYY-MM` (example: "2010-12") | Text | Provide a stable, locale-independent monthly dimension for trend analysis; used as the primary monthly analytical label. |
+| DayName | Derived from `InvoiceDate` (English weekday names; Monday–Sunday) | Text | Analyze sales patterns by day of week, directly supporting Business Question #15. |
+| WeekdayNumber | Derived from `InvoiceDate` (Monday = 1 through Sunday = 7) | Whole Number | Serve as a sorting key for `DayName` so weekday reports appear in chronological order rather than alphabetical order. |
 
-The engineered features were created to improve analytical flexibility while preserving the original transactional data. These additional fields simplify time-based analysis, revenue calculations, transaction categorization, and dashboard development without modifying the source dataset.
+These engineered features improve analytical flexibility by simplifying transactional analysis, supporting time-based analysis, providing consistent business classifications, and improving Pivot Table and dashboard development. MonthNumber and WeekdayNumber serve as supporting sort keys for MonthName and DayName respectively, while YearMonth is the primary monthly analytical label used for trend analysis and reporting. The original transactional data remains preserved and is not modified by these derived fields.
 
 ---
 

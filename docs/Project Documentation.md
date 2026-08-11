@@ -233,20 +233,30 @@ Only exact duplicate records were removed during the cleaning process. All other
 
 ## 9. Feature Engineering
 
-Feature engineering was performed after Data Cleaning to create a concise set of analytical fields that simplify transactional reporting, support time-based analysis, and provide consistent business classifications for dashboard development. All engineered fields are derived from existing transactional columns and the original data is preserved.
+Feature engineering was performed after Data Cleaning to create a concise set of analytical fields that simplify transactional reporting, support time-based analysis, and provide consistent business classifications for analysis and dashboard development. All engineered fields are derived from existing transactional columns, while the original transactional data remains preserved.
 
 | Engineered Feature | Derivation / Logic | Data Type | Business Purpose |
 |---|---:|---|---|
-| Revenue | Formula: [Quantity] * [UnitPrice] | Decimal Number | Calculate transaction-level revenue and support revenue and contribution analysis. |
-| TransactionType | Derived during data preparation using `InvoiceNo` patterns, `Quantity` and business rules; values: "Sale", "Cancellation", "Inventory Adjustment" | Text (enumeration) | Classify transactions consistently for sales, cancellation/return, and inventory adjustment analysis. Note: created in data preparation but treated as an engineered analytical feature. |
-| Year | Derived from `InvoiceDate` (calendar year) | Whole Number | Support yearly filtering and time-based comparisons. |
-| MonthNumber | Derived from `InvoiceDate` (1–12) | Whole Number | Preserve chronological month ordering and serve as a sorting key for `MonthName`. |
-| MonthName | Derived from `InvoiceDate` (English month names) | Text | Provide readable month labels for reports, Pivot Tables, and dashboards. |
-| YearMonth | Derived from `InvoiceDate` and formatted as `YYYY-MM` (example: "2010-12") | Text | Provide a stable, locale-independent monthly dimension for trend analysis; used as the primary monthly analytical label. |
-| DayName | Derived from `InvoiceDate` (English weekday names; Monday–Sunday) | Text | Analyze sales patterns by day of week, directly supporting Business Question #15. |
-| WeekdayNumber | Derived from `InvoiceDate` (Monday = 1 through Sunday = 7) | Whole Number | Serve as a sorting key for `DayName` so weekday reports appear in chronological order rather than alphabetical order. |
+| TransactionType | Derived from `InvoiceNo`, `Quantity`, and transaction business rules. Values: "Sale", "Cancellation", "Inventory Adjustment". | Text (enumeration) | Classify transactions consistently for sales, cancellations/returns, and inventory adjustment analysis. |
+| Revenue | Formula: "[Quantity] * [UnitPrice]" | Decimal Number | Calculate transaction-level revenue and support revenue and contribution analysis. |
+| Year | Derived from `InvoiceDate` using the calendar year. | Whole Number | Support yearly filtering and time-based analysis. |
+| MonthNumber | Derived from `InvoiceDate` as a value from 1 to 12. | Whole Number | Preserve chronological month ordering and serve as a sorting key for `MonthName`. |
+| MonthName | Derived from `InvoiceDate` as the English month name. | Text | Provide readable month labels for reports, Pivot Tables, and dashboards. |
+| YearMonth | Derived from `InvoiceDate` and formatted as `YYYY-MM` (e.g., "2011-03"). | Text | Provide a stable monthly analytical label for chronological trend analysis. |
+| DayName | Derived from `InvoiceDate` as the English weekday name (Monday–Sunday). | Text | Support analysis of transaction and sales patterns by day of week. |
+| WeekdayNumber | Derived from `InvoiceDate`, with Monday = 1 through Sunday = 7. | Whole Number | Serve as a sorting key for `DayName` to maintain chronological weekday order. |
+| InvoiceDateOnly | Derived from `InvoiceDate` by removing the time component and retaining only the calendar date. | Date | Support daily-level analysis while avoiding time-of-day granularity when not required. |
+| StockCodePattern | Derived from the structure of `StockCode` to classify stock codes by character pattern (for example: "Numeric", "Mixed", "Text"). | Text (enumeration) | Support product-code profiling and provide a structural basis for distinguishing standard product codes from special or non-product codes. |
+| ItemType | Derived from `StockCodePattern` and business classification rules. Values: "Product", "Non-Product". | Text (enumeration) | Distinguish physical product items from service, fee, discount, and other non-product transaction items. |
+| AnalysisType | Derived from `TransactionType` and `ItemType` to provide an analysis-oriented classification. Product transactions are classified by sale/cancellation while non-product records are grouped separately. | Text (enumeration) | Provide a consistent analytical layer for filtering transactions and separating product sales, product cancellations, and non-product records during analysis. |
 
-These engineered features improve analytical flexibility by simplifying transactional analysis, supporting time-based analysis, providing consistent business classifications, and improving Pivot Table and dashboard development. MonthNumber and WeekdayNumber serve as supporting sort keys for MonthName and DayName respectively, while YearMonth is the primary monthly analytical label used for trend analysis and reporting. The original transactional data remains preserved and is not modified by these derived fields.
+These engineered features improve analytical flexibility by simplifying transactional analysis, supporting time-based analysis, and providing consistent business classifications.
+
+`MonthNumber` and `WeekdayNumber` serve as supporting sort keys for `MonthName` and `DayName`, respectively. `YearMonth` provides the primary monthly label for chronological trend analysis, while `InvoiceDateOnly` supports daily-level analysis without unnecessary time granularity.
+
+`StockCodePattern`, `ItemType`, and `AnalysisType` provide complementary classification layers: `StockCodePattern` describes the structural pattern of the stock code, `ItemType` identifies whether the record represents a product or non-product item, and `AnalysisType` provides the final classification used for analytical filtering and reporting.
+
+All engineered fields are derived from existing transactional data, and the original source columns remain preserved.
 
 ---
 

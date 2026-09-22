@@ -1,44 +1,192 @@
-# 📊 Online Retail Sales Analysis – Excel BI Dashboard
+# 📊 Online Retail Sales Analysis (Excel)
+
+![Status](https://img.shields.io/badge/status-completed-brightgreen)
+![Excel](https://img.shields.io/badge/Excel-2021-217346)
+![Power Query](https://img.shields.io/badge/Power%20Query-M%20Language-yellow)
+![DAX](https://img.shields.io/badge/DAX-Measures-blue)
+![License](https://img.shields.io/badge/license-portfolio-blue)
+
+An end-to-end Excel Business Intelligence project that transforms the Kaggle Online Retail Dataset into an auditable data model, interactive dashboards, and actionable commercial insights.
+
+**Status: ✅ Completed**
+
+| Project detail | Description |
+|---|---|
+| **Dataset** | Online Retail Dataset from Kaggle |
+| **Source size** | 541,910 rows and 8 columns |
+| **Analysis period** | December 2010 – December 2011 |
+| **Processed output** | 536,641 cleaned transaction rows |
+| **Primary tools** | Microsoft Excel 2021, Power Query, Pivot Tables, Pivot Charts, and DAX |
+
+---
+
+## 📑 Table of Contents
+
+- [Project Objective](#-project-objective)
+- [Project Status](#-project-status)
+- [Downloads](#-downloads)
+- [Dashboard Preview](#-dashboard-preview)
+- [Verified KPI Snapshot](#-verified-kpi-snapshot)
+- [KPI Definition Notes](#-kpi-definition-notes)
+- [Key Insights](#-key-insights)
+- [Recommendations](#-recommendations)
+- [Technical Stack](#️-technical-stack)
+- [Project Workflow](#-project-workflow)
+- [Repository Structure](#-repository-structure)
+- [Documentation](#-documentation)
+- [Data Limitations](#️-data-limitations)
+- [Author](#-author)
+- [License](#-license)
+
+---
 
 ## 🎯 Project Objective
 
-Transform **541,910** raw transactional records into an auditable, interactive Business Intelligence (BI) model using Excel's modern data stack. This project uncovers geographic revenue concentrations, seasonal operational patterns, and cancellation baselines while delivering an executive-ready dashboard for data-driven decision-making.
+Build a reliable, executive-ready sales analysis solution from raw transaction data. The project covers data quality assessment, Power Query transformation, semantic classification, DAX KPI development, exploratory analysis, and dashboard storytelling.
+
+The resulting workbook helps business users understand revenue performance, geographic concentration, product demand, customer value, order timing, and cancellations through interactive views and slicers.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## ✅ Project Status
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| **Data Engineering** | Power Query (M) | ETL pipeline with exact deduplication, 3-layer semantic classification (TransactionType → ItemType → AnalysisType) |
-| **Data Modeling** | Power Pivot & DAX | 28 verified measures with explicit filter contexts for consistent KPI reporting |
-| **Visualization** | Excel Dashboard | Dynamic `Executive_Summary_00` with synchronized slicers (Country, Year, TransactionType) |
+This project is complete and ready for portfolio review.
 
----
-
-## 📈 Key Verified Metrics
-
-| Metric | Value |
-|--------|------:|
-| **Net Revenue** | **$9,771,519.35** |
-| **Total Recorded Invoices** | **25,900** |
-| **Identified Transacting Customers** | **4,336** |
-| **Active Product SKUs** | **3,820** |
-| **Average Order Value (AOV)** | **$395.94** |
-| **Baseline Cancellation Rate** | **11.75%** |
+- ✅ Business requirements and analytical questions defined
+- ✅ Raw data profiled and quality assessed
+- ✅ Data cleaned, typed, deduplicated, and classified in Power Query
+- ✅ Power Pivot data model and DAX measures developed
+- ✅ KPI calculations validated against the source data
+- ✅ Dashboard pages and interactive visuals completed
+- ✅ Business insights and recommendations documented
+- ✅ Final workbook and processed dataset published through GitHub Releases
 
 ---
 
-## 💡 Executive Insights
+## 📥 Downloads
 
-### 1️⃣ Geographic Concentration
-**United Kingdom** generates **$8.28M** (~84.7% of Net Revenue). The **top 5 markets** (UK, Netherlands, EIRE, Germany, France) account for **93.2%** of total revenue, highlighting a concentrated commercial footprint.
+| Resource | Description | Size | Download |
+|---|---|---|:---:|---|
+| **Sales Performance Workbook (v1.1)** | Excel workbook with the complete data model and full interactive dashboard | 56 MB | [Download](https://github.com/ebramrafat653-wq/online-retail-sales-analysis-excel/releases/download/v1.1-workbook/Sales_Performance_Analysis.xlsx) |
+| **Processed Dataset (v1.1)** | Cleaned CSV containing 536K processed transaction rows | 83 MB | [Download](https://github.com/ebramrafat653-wq/online-retail-sales-analysis-excel/releases/download/v1.1-data/online_retail_processed.csv) |
 
-### 2️⃣ Q4 / November Seasonality
-Revenue peaked sharply in **November** at **$1.43M** across **3,462 orders**, establishing a clear seasonal operating narrative for commercial planning.
+> 📌 The workbook and dataset are hosted as GitHub Releases because they exceed the standard Git file size limit. This keeps the repository lightweight and fast to clone.
 
-### 3️⃣ Midweek Demand Velocity
-**Wednesday and Thursday** combined account for **~38.4%** of weekly order volume, establishing the primary weekly operational baseline for staffing and fulfillment planning.
+---
+
+## 📸 Dashboard Preview
+
+| Executive Summary | Revenue Performance |
+|---|---|
+| ![Executive Summary dashboard](images/Executive_Summary_00.jpg) | ![Revenue Performance dashboard](images/Revenue_Performance_01.jpg) |
+
+| Geographic Analysis | Product Performance |
+|---|---|
+| ![Geographic Analysis dashboard](images/Geographic_Analysis_02.jpg) | ![Product Performance dashboard](images/Product_Performance_03.jpg) |
+
+| Customer Analysis | Order Analysis |
+|---|---|
+| ![Customer Analysis dashboard](images/Customer_Analysis_04.jpg) | ![Order Analysis dashboard](images/Order_Analysis_05.jpg) |
+
+---
+
+## 📈 Verified KPI Snapshot
+
+| KPI | Value |
+|---|---:|
+| **Gross revenue** | **$10,254,826.15** |
+| **Net revenue** | **$9,771,519.35** |
+| **Total recorded invoices** | **25,900** |
+| **Sale orders** | **20,556** |
+| **Cancellation orders** | **3,447** |
+| **Non-product invoices** | **1,897** |
+| **Identified transacting customers** | **4,336** |
+| **Active product SKUs** | **3,820** |
+| **Average order value** | **$395.94** |
+| **Baseline cancellation rate** | **11.75%** |
+
+---
+
+## 🧮 KPI Definition Notes
+
+Some KPIs use non-standard but explicitly documented formulas to reflect the transaction classification model accurately.
+
+| KPI | Formula | Notes |
+|---|---|---|
+| **Gross Revenue** | `SUM(Revenue) WHERE AnalysisType = "Sale"` | Product sales only |
+| **Net Revenue** | `SUM(Revenue) WHERE AnalysisType <> "Non-Product"` | Includes signed cancellations |
+| **Total Recorded Invoices** | `DISTINCTCOUNT(InvoiceNo)` | All transaction types |
+| **Sale Orders** | `DISTINCTCOUNT(InvoiceNo) WHERE AnalysisType = "Sale"` | Product sales only |
+| **Cancellation Orders** | `DISTINCTCOUNT(InvoiceNo) WHERE AnalysisType = "Cancellation"` | InvoiceNo starting with "C" |
+| **Average Order Value** | `Gross Revenue ÷ Total Recorded Invoices` | Revenue per recorded invoice |
+| **Cancellation Rate** | `Cancellation Orders ÷ (Total Recorded Invoices + Cancellation Orders)` | Custom transaction-monitoring KPI |
+
+> ⚠️ **Cancellation Rate** is **not** the percentage of revenue lost. It is a transaction-identifier-level indicator based on the model's classification logic.
+
+---
+
+## 🔍 Key Insights
+
+### 1. 🌟 Revenue is strongly seasonal
+
+November is the observed revenue peak at approximately **$1.43M**, with demand accelerating into the holiday period. December remains strategically important for inventory, fulfillment, and campaign planning.
+
+### 2. 🌍 The United Kingdom is the core market
+
+The UK contributes approximately **$8.28M**, or **84.7% of net revenue**. The top five markets together represent **93.2%**, indicating a highly concentrated geographic footprint across 38 countries.
+
+### 3. 📦 A focused group of giftware SKUs drives product revenue
+
+The product view shows revenue concentrated in a relatively small set of repeat-purchase giftware lines. **REGENCY CAKESTAND 3 TIER** leads revenue generation at **$164,469.49**, while **WORLD WAR 2 GLIDERS ASSTD DESIGNS** leads unit volume at **53,751 units** — highlighting the impact of unit price on revenue contribution.
+
+### 4. ⚠️ Cancellations create a material operational leakage point
+
+There are **3,447 cancellation orders**, producing a baseline cancellation rate of **11.75%**. Monitoring cancellation patterns by month, country, and product can help reduce avoidable revenue loss.
+
+### 5. 👥 Customer value is concentrated in a high-value cohort
+
+**Customer 14646** leads total spend at **$278,778.02**, followed by **Customer 18102** ($259,657.30) and **Customer 17450** ($189,587.53). The top 10 customers collectively contribute over **$1.37M** in net revenue, highlighting the importance of key-account performance.
+
+### 6. 🕐 Ordering activity is strongest during business-week operating windows
+
+**Thursday** shows the highest order volume at **5,860 orders**, followed by **Wednesday (4,815)**. Together, **Wednesday and Thursday account for ~38.4% of weekly order volume**, creating a practical baseline for staffing, fulfillment capacity, and customer-service coverage.
+
+### 7. 📈 Month-over-month performance follows campaign and holiday momentum
+
+Monthly revenue builds toward the fourth quarter rather than growing evenly across the year. The highest MoM growth was recorded in **May 2011 (+51.61%)**, while the peak month was **November 2011 ($1,427,783.98)**. The lowest month was **December 2011 ($440,619.60)**.
+
+---
+
+## 💡 Recommendations
+
+1. **Plan holiday inventory earlier:** Use the November peak as a planning trigger, increasing stock coverage and fulfillment capacity before Q4 demand accelerates.
+
+2. **Protect the UK base while diversifying selectively:** Maintain localized UK campaigns and service levels while testing focused acquisition programs in the next-highest-value European markets (Netherlands, EIRE, Germany).
+
+3. **Prioritize high-performing SKUs:** Set replenishment thresholds and promotional budgets around the leading revenue-generating giftware products, while reviewing slow-moving items for rationalization.
+
+4. **Create a cancellation-reduction workflow:** Track cancellation rate by product, country, and month; investigate recurring causes such as stockouts, fulfillment delays, and order-entry errors. Italy's 20.29% cancellation rate warrants dedicated investigation.
+
+5. **Develop a high-value customer program:** Segment the top customer cohort for retention outreach, personalized bundles, early access, and repeat-purchase incentives.
+
+6. **Align operational capacity with weekly demand rhythm:** Concentrate staffing, fulfillment, and customer-service resources around Wednesday–Thursday peak windows.
+
+---
+
+## 🛠️ Technical Stack
+
+- **Microsoft Excel 2021**
+- **Power Query** using the M language for ETL and data quality transformations
+- **Power Pivot / DAX** for the analytical data model and KPI measures
+- **Pivot Tables and Pivot Charts** for interactive analysis
+- **Git and GitHub** for version control and project delivery
+- **GitHub Releases** for hosting large workbook and dataset files
+
+---
+
+## 📊 Project Workflow
+
+✅ Business Understanding → ✅ Data Understanding → ✅ Data Quality Assessment → ✅ Data Cleaning → ✅ EDA → ✅ KPI Development → ✅ Dashboard → ✅ Insights → ✅ Recommendations
 
 ---
 
@@ -46,106 +194,59 @@ Revenue peaked sharply in **November** at **$1.43M** across **3,462 orders**, es
 
 ```text
 online-retail-sales-analysis-excel/
-│
+├── .gitignore
+├── README.md
 ├── data/
-│   ├── raw/                     # Original Kaggle dataset (541,910 rows)
-│   └── processed/               # Cleaned dataset reference (536,641 rows)
-│
+│   ├── raw/                         # Original Kaggle dataset
+│   └── processed/                   # Large files → see Releases
+├── docs/
+│   ├── Project Documentation.md
+│   ├── data_dictionary.md
+│   ├── dax_measures.md
+│   ├── power_query_logic.md
+│   └── validation_report.md
 ├── excel/
-│   └── workbooks/
-│       └── Sales_Performance_Analysis.xlsx   # Final BI workbook (Power Pivot + Dashboard)
-│
-├── docs/                        # Complete project documentation
-│   ├── Project_Documentation.md             # 18-section comprehensive guide
-│   ├── data_dictionary.md                   # Column & engineered feature dictionary
-│   ├── dax_measures.md                      # 28 DAX measures with definitions & caveats
-│   ├── power_query_logic.md                 # M code logic & transformation flow
-│   └── validation_report.md                 # Data validation & semantic audit
-│
-├── images/                      # Dashboard & report screenshots
-├── reports/figures/             # Additional analytical figures
-└── README.md                    # This file
-
+│   ├── workbook/                    # Large files → see Releases
+│   └── exports/
+└── images/
+    ├── Executive_Summary_00.jpg
+    ├── Revenue_Performance_01.jpg
+    ├── Geographic_Analysis_02.jpg
+    ├── Product_Performance_03.jpg
+    ├── Customer_Analysis_04.jpg
+    └── Order_Analysis_05.jpg
+```
 
 ---
 
-## 🔗 Deep Dive Documentation
+## 📚 Documentation
 
 | Document | Description |
-|----------|-------------|
-| **[Full Project Documentation](docs/Project_Documentation.md)** | Complete 18-section guide: business context, data quality, EDA, recommendations |
-| **[Data Validation & Audit Report](docs/validation_report.md)** | Technical verification of metrics, semantic audit, and integrity checks |
-| **[DAX Measures Catalog](docs/dax_measures.md)** | Complete documentation of all 28 measures with formulas, definitions, and caveats |
-| **[Data Dictionary](docs/data_dictionary.md)** | Column & engineered feature dictionary with distributions |
-| **[Power Query Logic](docs/power_query_logic.md)** | Step-by-step ETL transformation documentation |
-
----
-
-## 🔍 3-Layer Classification Architecture
-
-The project implements a **three-layer semantic classification** to isolate commercial metrics from operational adjustments:
-
-Raw Transaction (536,641 rows)
-↓
-Layer 1: TransactionType (Behavior)
-├── Sale (92.25%)
-├── Cancellation (7.72%)
-└── Inventory Adjustment (0.02%)
-↓
-Layer 2: ItemType (Merchandise)
-├── Product (99.47%)
-└── Non-Product (0.52%)
-↓
-Layer 3: AnalysisType (Reporting)
-├── Sale → Commercial KPIs
-├── Cancellation → Cancellation Metrics
-└── Non-Product → Excluded from Commercial Metrics
-↓
-DAX Measures (28 verified measures)
-
----
-
-**Key Design Decision:** All 28 DAX measures explicitly filter on `AnalysisType` to exclude fees, services, and inventory adjustments from product-level KPIs.
-
----
-
-## 📊 Verified Executive Metrics Breakdown
-
-| Component | Calculation | Value |
-|-----------|-------------|------:|
-| **Gross Revenue (Sales)** | SUM(Revenue) WHERE AnalysisType = "Sale" | ~$9,930,000+ |
-| **Cancellation Revenue** | SUM(Revenue) WHERE AnalysisType = "Cancellation" | ~($157,000) |
-| **Net Revenue** | Gross Revenue + Cancellation Revenue | **$9,771,519.35** |
-| **Total Recorded Invoices** | DISTINCTCOUNT(InvoiceNo) | **25,900** |
-| **Total Orders (Sales)** | DISTINCTCOUNT(InvoiceNo) WHERE AnalysisType = "Sale" | **22,041** |
-| **Total Cancellation Orders** | DISTINCTCOUNT(InvoiceNo) WHERE AnalysisType = "Cancellation" | **2,951** |
-| **Baseline Cancellation Rate** | 2,951 / (22,041 + 2,951) | **11.75%** |
-
----
-
-## 🧠 Technical Implementation Highlights
-
-- **Power Query (M):** 18 transformation steps loading, typing, deduplicating, and classifying data
-- **Power Pivot / DAX:** 28 measures with explicit filter contexts; no circular dependencies
-- **Excel Dashboard:** Dynamic `Executive_Summary_00` with KPI cards + Country/Year/TransactionType slicers
-- **Semantic Audit:** Full verification report with status tags (VERIFIED / UNVERIFIED / IMPLEMENTATION LIMITATION)
-
----
-
-## 📝 Data Quality Notes
-
-| Issue | Count | Handling |
-|-------|------:|----------|
-| Missing CustomerID | 135,037 (24.93%) | Retained for transaction analysis; excluded from customer count |
-| Missing Description | 1,454 | Retained; reference only |
-| Zero UnitPrice | 1,336 | Retained; treated as legitimate variation |
-| Exact Duplicates Removed | 5,269 | Removed via Table.Distinct() |
+|---|---|
+| [Project Documentation](<docs/Project Documentation.md>) | End-to-end project guide covering business context, analysis, and conclusions |
+| [Data Dictionary](docs/data_dictionary.md) | Definitions for source and engineered columns |
+| [DAX Measures](docs/dax_measures.md) | KPI formulas, definitions, and calculation caveats |
+| [Power Query Logic](docs/power_query_logic.md) | M-language transformation and classification logic |
+| [Validation Report](docs/validation_report.md) | Data integrity checks, metric reconciliation, and semantic audit |
 
 ---
 
 ## ⚠️ Data Limitations
 
-This dataset spans a **single 13-month window** (December 2010 – December 2011) and contains **no cost data (COGS)** — all financial metrics represent realized revenue only. While the analysis describes observed patterns with high confidence, it does **not** support causal inference or multi-year forecasting without additional data.
+- The dataset covers a single 13-month period and does not include cost of goods sold. Financial results therefore represent **realized revenue** rather than profit.
+- Cancellation Rate is a **transaction-identifier-level indicator**, not a revenue-loss percentage.
+- The 30-invoice threshold used in country-level cancellation rankings is an analytical screening rule, not a formal statistical-significance threshold.
+- The findings are descriptive for the observed period and should not be treated as multi-year forecasts without additional history.
+
+---
+
+## 👤 Author
+
+**[Ebram Rafat]**
+
+- 🐙 GitHub: [@ebramrafat653-wq](https://github.com/ebramrafat653-wq)
+- 💼 LinkedIn: [Ebram Rafat](https://www.linkedin.com/in/ebram-rafat-b9418132b)
+- 📧 Email: ebramrafat569@gmail.com
 
 ---
 
@@ -155,8 +256,6 @@ This project is created for **portfolio and educational purposes**. The dataset 
 
 ---
 
-**Status:** ✅ Ready for Portfolio Publication
+## 🏷️ Tags / Topics
 
----
-
-*Built with  using Excel, Power Query, and DAX* | *Last Updated: August 27, 2026*
+`excel` `data-analysis` `power-query` `dax` `dashboard` `business-intelligence` `retail-analytics` `portfolio-project`

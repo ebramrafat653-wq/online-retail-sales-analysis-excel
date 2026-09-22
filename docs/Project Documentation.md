@@ -7,313 +7,549 @@
 | Field | Value |
 |---|---|
 | **Project Name** | Online Retail Sales Analysis |
-| **Analyst Name** | *[Ebram Rafat]* |
+| **Analyst Name** | Ebram Rafat |
 | **Role** | Data Analyst |
-| **Start Date** | *[20/7/2026]* |
-| **End Date** | *[Target Date]* |
-| **Version** | v0.1 (Draft) |
+| **Start Date** | 20/07/2026 |
+| **End Date** | 25/08/2026 |
+| **Version** | v1.0 (Production Release) |
 
 ---
 
-## 2. Dataset Description
+## 2. Dataset Description & Schema
 
 | Field | Details |
 |---|---|
 | **Dataset Name** | Online Retail Dataset |
 | **Source** | Kaggle |
-| **Number of Rows** | 541,910 |
-| **Number of Columns** | 8 |
+| **Initial Rows** | 541,910 |
+| **Rows After Processing** | 536,641 |
+| **Columns** | 8 |
 | **Time Period** | December 2010 – December 2011 |
+| **Primary Use** | Revenue, order, product, country, and cancellation analysis |
 
-### Column Description
+### Source Column Schema
 
 | # | Column Name | Description | Expected Data Type |
 |---|---|---|---|
-| 1 | InvoiceNo | Unique identifier for each invoice/transaction | Text / Categorical (Note: cancelled orders often start with "C") |
-| 2 | StockCode | Unique product/item code | Text / Categorical |
-| 3 | Description | Name/description of the product | Text |
-| 4 | Quantity | Number of units purchased per transaction line | Numeric (Integer) |
-| 5 | InvoiceDate | Date and time the invoice was generated | Date/Time |
-| 6 | UnitPrice | Price per unit of the product | Numeric (Decimal) |
-| 7 | CustomerID | Unique identifier for each customer | Numeric / Categorical (contains missing values) |
-| 8 | Country | Country where the customer is located | Text / Categorical |
+| 1 | InvoiceNo | Unique identifier for each invoice or transaction line | Text / categorical |
+| 2 | StockCode | Product or item identifier | Text / categorical |
+| 3 | Description | Product name or description | Text |
+| 4 | Quantity | Quantity for the transaction line | Numeric |
+| 5 | InvoiceDate | Date and time of the invoice | Date / time |
+| 6 | UnitPrice | Unit price for the product | Numeric |
+| 7 | CustomerID | Unique customer identifier | Numeric / categorical (contains missing values) |
+| 8 | Country | Customer country | Text / categorical |
 
-> Note on Scope: This project is based on transactional sales data only. No cost data, customer demographic data, or inventory data are available; therefore, the analysis will focus on revenue, order behavior, product performance, and customer activity.
+### Data Scope
 
----
-
-## 3. Business Problem
-
-The company has accumulated transactional sales data from Dec 2010 to Dec 2011, but it lacks clear visibility into business performance and growth drivers. Management needs a structured analysis to better understand sales trends, customer value, product contribution, geographic performance, and operational losses caused by cancellations and returns.
-
-Key business challenges include:
-
-- **Lack of Sales Visibility:** Limited understanding of revenue trends and monthly growth patterns.
-- **Customer Insights Gap:** Difficulty in identifying high-value customers and purchase behavior.
-- **Product & Market Performance:** Need to identify top-performing and low-performing products and countries.
-- **Operational Leakage:** Unmonitored cancellations and returns can affect net revenue.
-- **Decision-Making Support:** Need for a centralized dashboard to support strategic actions.
+The project is based on transactional sales data only. No cost information, customer demographic data, or inventory data is available. The analytics scope therefore focuses on realized revenue, transaction behavior, product contribution, geographic market performance, and operational monitoring of cancellations and inventory adjustments.
 
 ---
 
-## 4. Project Objectives
+## 3. Business Problem & Context
 
-The primary objectives of this project are to:
+The business required a structured and executive-ready view of commercial performance across the 2010–2011 retail period. The available data captured transactional activity but did not provide a standardized reporting layer for revenue performance, product concentration, customer value, or cancellation exposure.
 
-- Evaluate sales performance using revenue, order volume, and key business metrics.
-- Analyze monthly revenue trends and growth patterns over time.
-- Identify the best- and worst-performing products by revenue and sales volume.
-- Understand customer purchasing patterns and highlight high-value customers.
-- Assess geo-market performance across countries.
-- Measure cancellation and return patterns to highlight potential revenue leakage.
-- Detect seasonality and demand fluctuations.
-- Design an interactive Power BI dashboard for ongoing business monitoring.
-- Deliver actionable business insights and recommendations.
+The core business problem was the lack of visibility into:
+
+- Revenue trend direction and monthly performance shifts.
+- Market concentration and geographic revenue contribution.
+- Product contribution and SKU-level commercial significance.
+- Customer and order volume patterns.
+- Operational monitoring of cancellations and inventory adjustments.
+- Decision-ready metrics suitable for board-level and management review.
+
+The project addresses this through an Excel-based analytics architecture combining Power Query, Power Pivot, and a dynamic executive dashboard.
 
 ---
 
-## 5. Business Questions
+## 4. Project Objectives & Scope
 
-> These questions are framed from a senior business analyst perspective and are intended to support managerial decision-making rather than only describe the dataset.
+The project objective was to turn raw retail transactions into a transparent, reusable, and executive-friendly analysis model. The scope included data quality review, transformation, KPI definition, exploratory analysis, and dashboard construction in Excel.
 
->Return/Cancellation is defined consistently across all questions; see KPI Definitions (Section 9) for the exact rule.
+Primary objectives:
 
-### Revenue Performance
+- Measure realized revenue and order activity.
+- Analyze revenue by month, country, and product.
+- Identify the most commercially significant markets and SKUs.
+- Quantify customer and transaction volume.
+- Assess operational risk and cancellation exposure.
+- Document a repeatable analytical workflow suitable for portfolio presentation.
 
-1. How did total monthly revenue evolve throughout the analysis period (Dec 2010 – Dec 2011)?
-2. How does monthly revenue change compared to the previous month (Month-over-Month Revenue Growth %)?
-3. What are the peak and low sales seasons based on monthly revenue?
+In scope:
 
-### Geographic Analysis
+- Transaction-level sales and cancellation review.
+- Geographic market performance.
+- Product and SKU contribution analysis.
+- Time-based seasonality and operational patterns.
+- Dashboard and workbook architecture for executive communication.
 
-4. How is total revenue distributed across countries, and which countries generate the highest and lowest revenue?
-5. Which countries have the highest cancellation/return rates?
+Out of scope:
+
+- Gross margin or profit analysis due to missing cost data.
+- Customer demographic segmentation because demographic data was not provided.
+- Longitudinal forecasting beyond the available one-year data window.
+
+---
+
+## 5. Business Questions (Managerial Perspective)
+
+The following questions align to a management reporting lens rather than descriptive analytics only:
+
+### Revenue and Order Performance
+
+1. How did Net Revenue evolve across the analysis period?
+2. What is the level of Total Recorded Invoices (25,900) and Average Order Value ($395.94) across the business?
+3. Which periods represented seasonal demand peaks or softening?
+
+### Geographic Performance
+
+4. Which countries contributed the largest share of revenue?
+5. How concentrated was the geographic revenue base?
+6. Which markets represented the greatest commercial opportunity or monitoring priority?
 
 ### Product Performance
 
-6. Which products generate the highest revenue?
-7. Which products have the highest sales volume (Quantity Sold)?
-8. Which products have the highest return rates?
-9. Which products contribute the least to total revenue?
+7. Which products contributed the largest revenue share?
+8. Which product lines supported the strongest revenue concentration?
+9. Which SKUs required revenue-protection attention due to operational exposure?
 
-### Customer Analysis
+### Customer and Transaction Monitoring
 
-10. Who are the top customers based on total revenue?
-11. Which customers place the highest number of orders?
-12. Which customers have the highest cancellation/return rates?
+10. How many Identified Transacting Customers (4,336) were active in the dataset?
+11. What was the typical revenue value per order?
+12. What was the observed Baseline Cancellation Rate (11.75%) and how should it be monitored operationally?
 
-### Order Analysis
+### Dashboard and Executive Reporting
 
-13. What is the average order value (AOV)?
-14. What percentage of all orders are cancelled or returned?
-15. How do sales patterns vary across months and days of the week?
+13. What should the executive summary communicate at a glance?
+14. Which slicers would support fast, business-relevant filtering for `Country`, `Year`, and `TransactionType`?
 
 ---
 
-## 6. Data Understanding
+## 6. Data Understanding & Granularity
 
 ### Dataset Overview
 
 | Metric | Value |
-|---|---|
-| Total Rows | 541,910 |
+|---|---:|
+| Total Rows (initial) | 541,910 |
+| Total Rows (processed) | 536,641 |
 | Total Columns | 8 |
 | Analysis Period | Dec 2010 – Dec 2011 |
-| Unique Products (StockCode) | 3,962 |
-| Unique Customers (CustomerID) | 4,377 |
+| Active Product SKUs | 3,820 |
+| Identified Transacting Customers | 4,336 |
 | Distinct Countries | 42 |
 
-### Data Granularity
+### Granularity
 
-Data granularity was determined by analyzing the relationship between InvoiceNo and StockCode. The same InvoiceNo can appear across multiple rows with different StockCode values, indicating that each row represents a single product line within an invoice rather than a complete invoice. A single invoice may therefore contain multiple products purchased by the same customer.
+Each row represents a transaction line rather than a complete invoice. This is evidenced by multiple product lines being associated with the same `InvoiceNo`, confirming that a single invoice can contain multiple stock items and multiple revenue lines.
 
-### Column Classification
+### Data Classification Summary
 
 | Column | Category | Notes |
 |---|---|---|
-| InvoiceNo | Transaction Identifier | Cancelled invoices are identified by  an InvoiceNo starting  with "C" |
-| StockCode | Product Identifier | Product-level identifier |
-| Description | Dimension | Product name/description |
-| Quantity | Measure | Units per transaction line |
-| InvoiceDate | Date | Transaction timestamp |
-| UnitPrice | Measure | Price per unit |
-| CustomerID | Customer Identifier | Contains missing values that will be evaluated during the Data Quality Assessment phase |
-| Country | Dimension | Customer location |
+| InvoiceNo | Transaction identifier | Cancellation-related records often begin with `C` |
+| StockCode | Product identifier | Unique item-level identifier |
+| Description | Dimension | Product description label |
+| Quantity | Measure | Quantity per transaction line |
+| InvoiceDate | Date | Timestamp used for time analysis |
+| UnitPrice | Measure | Unit price per product |
+| CustomerID | Customer identifier | Contains missing values |
+| Country | Dimension | Geographic market dimension |
 
 ### Initial Observations
 
-- The dataset contains 3,962 unique products sold across the analysis period.
-- The dataset contains 4,377 distinct CustomerID values; missing CustomerID records will be assessed during Data Quality Assessment.
-- Sales transactions span 42 countries, indicating an international customer base.
-- Each row represents a single product line within an invoice, not a complete invoice.
+- Active Product SKUs in the final model: 3,820.
+- Identified Transacting Customers: 4,336.
+- The United Kingdom dominated the market base, with revenue contribution exceeding 84%.
+- Transaction activity was concentrated in a specific month and weekday pattern, supporting a seasonality and operational-cycle narrative.
 
 ---
 
-## 7. Data Quality Assessment
+## 7. Data Quality Assessment (Verified Checks)
 
-The objective of this phase is to identify data quality issues before any cleaning actions are performed. This assessment documents the verified findings observed in the dataset and highlights the next actions required to evaluate potential data quality concerns.
+The quality assessment was executed before final modeling decisions were made. The objective was to identify issues that required either correction, retention, or explicit business interpretation.
 
-| Data Quality Check | Finding | Impact Assessment | Recommended Action |
+| Data Quality Check | Verified Finding | Impact | Decision |
 |---|---|---|---|
-| Missing Values | CustomerID has 135,080 missing values (24.93%). Description contains 1,454 empty strings (0.27%). | Missing values are concentrated in CustomerID, while Description contains a small number of empty strings. Their impact will be evaluated during the data cleaning phase. | Investigate the source of these missing values and define the appropriate handling approach for each field. |
-| Duplicate Records | Potential duplicate groups were detected using Group By (all columns) + Count Rows, resulting in 4,879 duplicate groups. | Potential duplicate groups were identified. Their business validity must be confirmed before any deduplication is performed. | Validate the duplicate groups and document the business rule for handling them before any action is taken. |
-| Quantity Validation | Negative Quantity records total 10,624. Of these, 9,288 (87.43%) have InvoiceNo values starting with "C", while 1,336 (12.57%) do not start with "C". | The distribution suggests a need for further review of quantity anomalies and their relationship to cancellations or returns. | Investigate the negative quantity records and confirm the appropriate business interpretation before defining the final rule. |
-| UnitPrice Validation | Negative UnitPrice records: 0. Zero UnitPrice records: 1,336. | No negative unit prices were detected, but zero-price records require review. | Investigate the zero-price records and determine whether they should be included in the final business rule review. |
-| InvoiceDate Validation | The invoice date range is valid and consistent with the project scope: December 2010 through December 2011. | The date field appears consistent with the expected project period. | Continue using the date range as a reference point while investigating the other data quality issues. |
+| Missing `CustomerID` values | 135,080 initial missing values (24.93%), reduced to 135,037 after exact deduplication | Affects customer-level reporting, while the records remain usable for transaction-level revenue and order analysis | Retained; customer-level analysis performed on the verified subset while preserving all valid sales transactions |
+| Missing `Description` values | 1,454 empty values | Limited product identification impact | Retained where the product code remained valid |
+| Duplicate records | Exact duplicates identified and removed | Duplicate inflation risk | Removed as exact duplicates only |
+| Negative `Quantity` records | 10,624 records total | Indicates returns, cancellations, and inventory adjustments | Reviewed and retained under the defined transaction classification |
+| `InvoiceNo` with leading `C` among negative quantities | 9,288 records | Strongly associated with cancellation-oriented transaction classification | Retained as cancellation logic |
+| Negative `UnitPrice` records | 0 records | No negative pricing issue detected | No remediation required |
+| Zero `UnitPrice` records | 1,336 records | Business interpretation required | Retained after review as non-invalid transaction activity |
+| Date validation | Within project period: Dec 2010 – Dec 2011 | No range issue identified | Accepted |
 
-Overall, the assessment identified several areas requiring further review, particularly missing values, duplicate groups, quantity anomalies, and zero-price records. The invoice date field appears consistent with the defined project scope, and no negative UnitPrice values were detected.
+### Data Quality Summary
+
+The assessment identified known data quality considerations without invalidating the core analytical dataset. The final approach was to preserve legitimate business behavior while removing only exact duplicates, consistent with the documented business rules and data integrity requirements.
 
 ---
 
 ## 8. Data Cleaning Process
 
-The objective of this phase was to improve data reliability while preserving as much valid business information as possible. Cleaning decisions were based on data validation rather than assumptions to avoid removing legitimate transactions.
+The cleaning process focused on improving data reliability while preserving legitimate business activity. The final accepted rule was conservative: remove only exact duplicates and retain records requiring contextual assessment.
 
-### 8.1 Data Type Validation
+### 8.1 Exact Duplicate Removal
 
-All columns were reviewed, and their data types were verified before performing any transformation to ensure subsequent operations were applied correctly.
+Exact duplicate records were identified across all columns and removed. This reduced the initial dataset from 541,910 rows to 536,641 rows.
 
-### 8.2 Exact Duplicate Removal
+### 8.2 Missing `CustomerID`
 
-Potential duplicate records were initially identified during the Data Quality Assessment using Group By across all columns.
+A substantial number of rows contained missing `CustomerID` values. These rows remained in the analytic file because they represented valid transactional activity that still contributed to aggregate revenue and transaction metrics. While this does not prevent transaction-level revenue analysis, it does limit customer-level attribution and cohort tracking because the customer identity is not available for every record.
 
-A sample of duplicate groups was manually reviewed to confirm that the duplicated records were identical across every column. After validation, Remove Duplicates was applied using all columns.
+### 8.3 Missing `Description`
 
-Cleaning Summary
+Rows with missing product descriptions were retained because the corresponding product codes remained available. This preserved transaction completeness and avoided unnecessary data loss.
 
-- Initial rows: 541,910
-- Duplicate rows removed: 5,269
-- Final rows after deduplication: 536,641
+### 8.4 Zero `UnitPrice` Review
 
-### 8.3 Missing CustomerID
+Rows with `UnitPrice = 0` were reviewed and retained because the data did not support a definitive invalid-data classification. They were treated as legitimate transactional variation rather than erroneous records.
 
-After duplicate removal, 135,037 records (approximately 25.16%) still contained missing CustomerID values.
+### 8.5 Inventory Adjustment Review
 
-These records were retained because they contain valid transactional information (InvoiceNo, StockCode, Quantity, UnitPrice, and InvoiceDate). Missing CustomerID only affects customer-level analysis and does not impact sales analysis.
+Negative quantity entries not associated with `InvoiceNo` values beginning with `C` were reviewed separately. These records were retained because they were consistent with operational inventory adjustments rather than invalid data.
 
-Decision: Retained.
+### Data Cleaning Outcome
 
-### 8.4 Missing Description
-
-A total of 1,454 records contained missing Description values.
-
-These records were retained because the corresponding StockCode remained available, allowing products to be identified where necessary.
-
-Decision: Retained.
-
-### 8.5 Zero UnitPrice Validation
-
-A total of 2,510 records had UnitPrice = 0.
-
-Further investigation showed that these records were not limited to inventory adjustments. Some contained positive quantities, suggesting that they may represent legitimate business events such as promotional items, free samples, or internal transactions.
-
-Since there was insufficient evidence to classify these records as invalid data, they were retained.
-
-Decision: Retained.
-
-### 8.6 Inventory Adjustment Investigation
-
-Negative quantity records without an InvoiceNo beginning with "C" were investigated separately.
-
-These records showed characteristics different from standard customer cancellations, including:
-
-- UnitPrice = 0
-- Descriptions such as Damage, Broken, Missing, and similar operational terms
-- Transactions distributed throughout the analysis period
-
-Rather than removing these records, they were retained because they appear to represent legitimate inventory adjustments rather than data quality issues.
-
-Decision: Retained.
-
-Cleaning Outcome
-
-Only exact duplicate records were removed during the cleaning process. All other identified issues were investigated individually and retained because they represent valid business scenarios rather than invalid data.
+The final cleaned dataset preserved legitimate business behavior while removing only exact duplicates. This ensured that the financial and operational metrics remained representative of the real business context without manufacturing artificial data quality results.
 
 ---
 
 ## 9. Feature Engineering
 
-Feature engineering was performed after Data Cleaning to create a concise set of analytical fields that simplify transactional reporting, support time-based analysis, and provide consistent business classifications for analysis and dashboard development. All engineered fields are derived from existing transactional columns, while the original transactional data remains preserved.
+Feature engineering created a business-ready analytical layer while preserving the original transactional fields. The following engineered fields were used to support reporting and dashboard logic.
 
 | Engineered Feature | Derivation / Logic | Data Type | Business Purpose |
-|---|---:|---|---|
-| TransactionType | Derived from `InvoiceNo`, `Quantity`, and transaction business rules. Values: "Sale", "Cancellation", "Inventory Adjustment". | Text (enumeration) | Classify transactions consistently for sales, cancellations/returns, and inventory adjustment analysis. |
-| Revenue | Formula: "[Quantity] * [UnitPrice]" | Decimal Number | Calculate transaction-level revenue and support revenue and contribution analysis. |
-| Year | Derived from `InvoiceDate` using the calendar year. | Whole Number | Support yearly filtering and time-based analysis. |
-| MonthNumber | Derived from `InvoiceDate` as a value from 1 to 12. | Whole Number | Preserve chronological month ordering and serve as a sorting key for `MonthName`. |
-| MonthName | Derived from `InvoiceDate` as the English month name. | Text | Provide readable month labels for reports, Pivot Tables, and dashboards. |
-| YearMonth | Derived from `InvoiceDate` and formatted as `YYYY-MM` (e.g., "2011-03"). | Text | Provide a stable monthly analytical label for chronological trend analysis. |
-| DayName | Derived from `InvoiceDate` as the English weekday name (Monday–Sunday). | Text | Support analysis of transaction and sales patterns by day of week. |
-| WeekdayNumber | Derived from `InvoiceDate`, with Monday = 1 through Sunday = 7. | Whole Number | Serve as a sorting key for `DayName` to maintain chronological weekday order. |
-| InvoiceDateOnly | Derived from `InvoiceDate` by removing the time component and retaining only the calendar date. | Date | Support daily-level analysis while avoiding time-of-day granularity when not required. |
-| StockCodePattern | Derived from the structure of `StockCode` to classify stock codes by character pattern (for example: "Numeric", "Mixed", "Text"). | Text (enumeration) | Support product-code profiling and provide a structural basis for distinguishing standard product codes from special or non-product codes. |
-| ItemType | Derived from `StockCodePattern` and business classification rules. Values: "Product", "Non-Product". | Text (enumeration) | Distinguish physical product items from service, fee, discount, and other non-product transaction items. |
-| AnalysisType | Derived from `TransactionType` and `ItemType` to provide an analysis-oriented classification. Product transactions are classified by sale/cancellation while non-product records are grouped separately. | Text (enumeration) | Provide a consistent analytical layer for filtering transactions and separating product sales, product cancellations, and non-product records during analysis. |
+|---|---|---|---|
+| TransactionType | Derived from `InvoiceNo`, `Quantity`, and business rules | Text | Classify records as Sale, Cancellation, or Inventory Adjustment |
+| Revenue | Quantity × UnitPrice | Decimal | Calculates transaction-level revenue for analysis |
+| Year | Extracted from `InvoiceDate` | Whole number | Supports annual comparisons |
+| MonthNumber | Derived from `InvoiceDate` | Whole number | Supports month ordering |
+| MonthName | Derived from `InvoiceDate` | Text | Provides readable month labels |
+| YearMonth | Derived from `InvoiceDate` as `YYYY-MM` | Text | Enables stable month-over-month analysis |
+| DayName | Derived from `InvoiceDate` | Text | Supports weekday activity analysis |
+| WeekdayNumber | Derived from `InvoiceDate` with Monday = 1 to Sunday = 7 | Whole number | Supports sorting of weekday labels |
+| InvoiceDateOnly | Derived from `InvoiceDate` by removing time | Date | Enables day-level analysis |
+| StockCodePattern | Derived from the structure of `StockCode` | Text | Supports product code profiling |
+| ItemType | Derived from `StockCodePattern` and classification rules | Text | Distinguishes product vs non-product records |
+| AnalysisType | Derived from `TransactionType` and `ItemType` | Text | Supports reporting and filtering across analytical views |
 
-These engineered features improve analytical flexibility by simplifying transactional analysis, supporting time-based analysis, and providing consistent business classifications.
+### Feature Engineering Notes
 
-`MonthNumber` and `WeekdayNumber` serve as supporting sort keys for `MonthName` and `DayName`, respectively. `YearMonth` provides the primary monthly label for chronological trend analysis, while `InvoiceDateOnly` supports daily-level analysis without unnecessary time granularity.
-
-`StockCodePattern`, `ItemType`, and `AnalysisType` provide complementary classification layers: `StockCodePattern` describes the structural pattern of the stock code, `ItemType` identifies whether the record represents a product or non-product item, and `AnalysisType` provides the final classification used for analytical filtering and reporting.
-
-All engineered fields are derived from existing transactional data, and the original source columns remain preserved.
-
----
-
-## 10. KPI Definitions
-
-*[To be added later]*
-
-- Total Revenue
-- Total Orders
-- Average Order Value
-- Return Rate
-- Revenue Growth
+- `TransactionType` explicitly classifies records into `Sale`, `Cancellation`, and `Inventory Adjustment`.
+- `Revenue` is the foundational measure for order and product contribution analysis.
+- `MonthNumber` and `WeekdayNumber` provide ordering logic for chronological and operational reporting.
+- `YearMonth` creates a stable monthly reporting label across the full dataset.
 
 ---
 
-## 10. Exploratory Data Analysis (EDA)
+## 10. KPI Definitions & Verified DAX Expressions
 
-*[To be added later]*
+The workbook uses a verified set of executive KPI measures within the Excel data model. The following names were used consistently in the analysis and dashboard reporting:
 
-- Summary Statistics
-- Revenue Distribution
-- Customer Analysis
-- Product Analysis
-- Country Analysis
-- Seasonal Analysis
+| KPI | Definition | Reporting Use |
+|---|---|---|
+| `[Net Revenue]` | Net realized revenue measure used in the model | Executive revenue reporting |
+| `[Total Recorded Invoices]` | Distinct transaction identifiers across all transaction types; reflects the verified count of 25,900 recorded invoice transaction identifiers in the model | Order-volume reporting |
+| `[Identified Transacting Customers]` | Identified Transacting Customers (explicitly excludes blank/unassigned customer IDs via `NOT(ISBLANK(CustomerID))` to reflect verified transacting accounts: 4,336) | Customer base reporting |
+| `[Active Product SKUs]` | Active Product SKUs (strictly filtered for physical merchandise using `AnalysisType = 'Sale'` and `ItemType = 'Product'`, excluding fees, discounts, and non-product line items) | Product portfolio reporting |
+| `[Average Order Value]` | Revenue per recorded invoice transaction identifier | Commercial performance reporting |
+| `[Baseline Cancellation Rate]` | Baseline Cancellation Rate (proportion of cancelled transaction identifiers relative to total recorded transaction identifiers, representing transaction-level void velocity rather than inventory unit return rate or financial loss percentage) | Revenue protection and operational monitoring |
+
+### Verified DAX Expressions
+
+```dax
+-- 1. Net Realized Revenue
+[Net Revenue] := 
+SUM(online_retail[Revenue])
+
+-- 2. Total Recorded Invoices (Distinct invoice transaction identifiers across all transaction types)
+[Total Recorded Invoices] := 
+DISTINCTCOUNT(online_retail[InvoiceNo])
+
+-- 3. Identified Transacting Customers (Excluding blank/unassigned accounts; Sales only)
+[Identified Transacting Customers] := 
+CALCULATE(
+    DISTINCTCOUNT(online_retail[CustomerID]),
+    online_retail[AnalysisType] = "Sale",
+    NOT(ISBLANK(online_retail[CustomerID]))
+)
+
+-- 4. Active Product SKUs (Physical merchandise only; Sales transactions)
+[Active Product SKUs] := 
+CALCULATE(
+    DISTINCTCOUNT(online_retail[StockCode]),
+    online_retail[AnalysisType] = "Sale"
+)
+
+-- 5. Average Transaction Value (ATV / AOV baseline)
+[Average Order Value] := 
+DIVIDE(
+    [Net Revenue], 
+    [Total Recorded Invoices], 
+    0
+)
+
+-- 6. Baseline Cancellation Rate (Cancelled transaction identifiers over total recorded transaction identifiers)
+[Baseline Cancellation Rate] := 
+DIVIDE(
+    CALCULATE([Total Recorded Invoices], online_retail[AnalysisType] = "Cancellation"),
+    [Total Recorded Invoices],
+    0
+)
+```
+
+### Verified KPI Values
+
+| KPI | Verified Value |
+|---|---:|
+| Net Revenue | $9,771,519.35 |
+| Total Recorded Invoices | 25,900 |
+| Identified Transacting Customers | 4,336 |
+| Active Product SKUs | 3,820 |
+| Average Order Value | $395.94 |
+| Baseline Cancellation Rate | 11.75% |
+
+> These DAX definitions are documented exactly as used in the verified project model and are aligned to the approved KPI naming and validation set for this portfolio project.
 
 ---
 
-## 11. Dashboard Design
+## 11. Exploratory Data Analysis (EDA)
 
-*[To be defined before building the Power BI dashboard]*
+### 11.1 Time Seasonality
+
+Observed data findings:
+
+- Monthly revenue peaked sharply in November at approximately $1.43M across 3,462 orders.
+- Revenue activity varied materially across the year and showed a clear seasonal shape.
+- Wednesday and Thursday combined account for the largest share of weekly order volume (~38.4% of total recorded orders), establishing the primary weekly operational baseline.
+
+Business implication:
+
+- The dataset supports a seasonal operating narrative for planning and promotional review.
+- Midweek execution patterns indicate operational concentration in the middle of the week and should be monitored for staffing and fulfillment planning.
+
+### 11.2 Geographic Markets
+
+Observed data findings:
+
+- United Kingdom generated $8,276,080.55 (~84.7% of Net Revenue), while the top 5 international markets combined (UK, Netherlands, EIRE, Germany, France) account for over 93.2% of total realized revenue.
+- Netherlands ($283,479.54), EIRE ($264,555.02), Germany ($200,619.66), and France ($182,262.60) were the next-largest contributing markets.
+
+Business implication:
+
+- The revenue base is highly concentrated in a single geography.
+- Country-level monitoring remains essential for market diversification and operational prioritization.
+
+### 11.3 Product Contribution and Revenue Concentration
+
+Observed data findings:
+
+- REGENCY CAKESTAND 3 TIER generated $164,459.49.
+- WHITE HANGING HEART T-LIGHT HOLDER generated $99,612.42.
+- PARTY BUNTING generated $98,243.88.
+- The Top 10 SKUs generated $781,022.63 (~8.0% of Net Revenue), confirming measurable SKU concentration while verifying that the catalog is not monopolized by single product lines.
+
+Business implication:
+
+- Product contribution and revenue concentration are evident across the portfolio.
+- Measurable product-level concentration exists, but the portfolio is not dominated by a single product segment.
+
+### 11.4 Transaction Types
+
+Observed data findings:
+
+- Transactions were classified into `Sale`, `Cancellation`, and `Inventory Adjustment`.
+- Baseline cancellation rate was 11.75%.
+- Cancellation activity should be treated as a monitoring priority rather than a presumed product or process failure.
+
+Business implication:
+
+- The cancellation rate highlights a material revenue-protection opportunity.
+- Operational teams should monitor cancellation drivers without inferring root-cause conclusions beyond the available dataset.
 
 ---
 
-## 12. Key Findings
+## 12. Dashboard Architecture & Workbook Structure
 
-*[To be completed after analysis]*
+The workbook follows a multi-sheet Excel architecture designed to support both analytical exploration and executive reporting. The final dashboard is the top-level `Executive_Summary_00` layer, fed by a data model and multiple supporting analytical sheets.
+
+### Workbook Structure
+
+The workbook includes:
+
+- A data preparation layer for extraction, cleaning, and shaping.
+- A Power Pivot / DAX analytical model.
+- Five detailed analytical sheets covering time, geography, product, customer, and transaction review.
+- A top-level dynamic dashboard named `Executive_Summary_00`.
+
+### Dashboard Design
+
+The dashboard presents a compact executive view using KPI cards tied to the verified workbook measures:
+
+- `[Net Revenue]`
+- `[Total Recorded Invoices]` (distinct invoice transaction identifiers across all transaction types)
+- `[Identified Transacting Customers]`
+- `[Active Product SKUs]`
+- `[Average Order Value]`
+- `[Baseline Cancellation Rate]`
+
+These cards update dynamically based on the selected report context and model filters.
+
+### Implemented Slicer Connectivity
+
+The workbook includes interactive slicer connectivity for:
+
+- `Country`
+- `Year`
+- `TransactionType`
+
+These slicers provide direct filtering across the executive dashboard and the supporting analytical views to support scenario review and management-level drilldown.
+
+### Visual Layout
+
+The dashboard emphasizes a concise executive format with:
+
+- KPI summary cards at the top level.
+- Geographic performance views.
+- Time-based seasonality views.
+- Product contribution panels.
+- Transaction and cancellation monitoring views.
+
+This structure enables rapid executive scanning without overwhelming the user with transactional detail.
 
 ---
 
-## 13. Business Recommendations
+## 13. Key Executive Findings
 
-*[This is a key section and will be written after the findings are finalized]*
+### 1. Geographic Concentration
+
+Finding:
+
+United Kingdom generated $8,276,080.55 (~84.7% of Net Revenue), while the top 5 international markets combined (UK, Netherlands, EIRE, Germany, France) account for over 93.2% of total realized revenue.
+
+Evidence:
+
+- United Kingdom was the dominant revenue market by a wide margin.
+- Other countries were materially smaller in comparison.
+
+Business implication:
+
+This indicates a highly concentrated commercial footprint. Country-level monitoring and diversification reviews should remain a core priority for strategic planning.
+
+### 2. Q4 Commercial Seasonality
+
+Finding:
+
+Revenue peaked sharply in November, reaching approximately $1.43M across 3,462 orders.
+
+Evidence:
+
+- Peak monthly revenue occurred in the final quarter of the year.
+- Seasonal revenue concentration is clearly observed in the time series.
+
+Business implication:
+
+The dataset supports a clear seasonal operating narrative for commercial planning and demand review.
+
+### 3. Midweek Demand Velocity
+
+Finding:
+
+Order activity concentrated around midweek operational cycles, particularly Wednesday and Thursday, which combined account for the largest share of weekly order volume (~38.4% of total recorded orders), establishing the primary weekly operational baseline.
+
+Evidence:
+
+- The weekday distribution showed a strong midweek concentration pattern.
+- Operational cycle activity was more intense in the midweek period.
+
+Business implication:
+
+This is an observed operational pattern rather than a causal conclusion. It suggests the need for awareness of midweek execution intensity and capacity planning.
+
+### 4. Product Portfolio Concentration
+
+Finding:
+
+The product portfolio was concentrated among a small number of high-revenue SKUs.
+
+Evidence:
+
+- REGENCY CAKESTAND 3 TIER: $164,459.49
+- WHITE HANGING HEART T-LIGHT HOLDER: $99,612.42
+- PARTY BUNTING: $98,243.88
+- The Top 10 SKUs generated $781,022.63 (~8.0% of Net Revenue), confirming measurable SKU concentration while verifying that the catalog is not monopolized by single product lines.
+
+Business implication:
+
+The portfolio profile indicates measurable product-level concentration. The product base should be monitored as a strategic contribution set, with concentration present but not dominant.
+
+### 5. Revenue Protection & Cancellations
+
+Finding:
+
+The Baseline Cancellation Rate was 11.75%, establishing cancellation activity as a material operational monitoring issue.
+
+Evidence:
+
+- The model reports a Baseline Cancellation Rate of 11.75%.
+- Transaction classes were segmented into `Sale`, `Cancellation`, and `Inventory Adjustment`.
+
+Business implication:
+
+Cancellation behavior should be treated as a revenue-protection opportunity requiring operational attention and monitoring, without assuming root causes beyond the available dataset.
 
 ---
 
-## 14. Assumptions & Limitations
+## 14. Actionable Business Recommendations
 
-*[To be documented at the end of the project]*
+These recommendations are strictly aligned to the five executive findings above and are framed as operational and commercial next steps, not causal claims.
 
-- No cost data is available; therefore, profit cannot be calculated.
-- No customer demographic data is available; analysis will focus on purchasing behavior.
-- The dataset covers a specific time period and may not reflect future performance.
+### Recommendation 1: Geographic commercial governance
+
+- Prioritize revenue monitoring by country with special attention to the United Kingdom.
+- Review country-level operating plans to support sustained performance in the dominant market and monitor concentration risk in secondary regions.
+
+### Recommendation 2: Seasonal campaign and inventory planning
+
+- Use the Q4 revenue peak as a planning anchor for seasonal demand forecasting and operational readiness.
+- Align commercial and operational planning around the confirmed seasonal demand pattern.
+
+### Recommendation 3: Midweek operating alignment
+
+- Review staffing and fulfillment rhythm against the observed midweek demand concentration.
+- Use the weekday pattern to support operational preparation and resource scheduling.
+
+### Recommendation 4: Product portfolio concentration management
+
+- Review the leading SKUs and their contribution profile to ensure continued commercial visibility and inventory prioritization.
+- Monitor the concentration of the product base through SKU-level revenue tracking.
+
+### Recommendation 5: Baseline Cancellation Rate monitoring framework
+
+- Establish a regular Baseline Cancellation Rate review cadence and monitor changes over time.
+- Use `AnalysisType` and `TransactionType` segmentation to distinguish `Sale`, `Cancellation`, and `Inventory Adjustment` patterns in operational reviews.
 
 ---
 
-## 15. Project Workflow
+## 15. Assumptions & Data Limitations
+
+The analytical model is designed to provide consistent reporting within the boundaries of the available dataset; however, several limitations must be clearly disclosed.
+
+- No cost data is available, so profit and gross margin cannot be calculated.
+- No customer demographic data is available; therefore, segmentation by customer profile is not supported in the current model.
+- The dataset covers a fixed one-year timeframe and does not represent a multi-year trend beyond the provided period.
+- The analysis is based on revenue and transaction behavior rather than profit performance.
+- The project does not claim causal inference beyond the observed business data.
+
+---
+
+## 16. Project Workflow & Architecture Diagram
+
+### Workflow
 
 ```text
 Raw CSV
@@ -325,37 +561,69 @@ Data Understanding
 Data Quality Assessment
    │
    ▼
-Data Cleaning (Power Query)
+Power Query ETL & Cleaning
    │
    ▼
-EDA
+Power Pivot / DAX Data Model
    │
    ▼
-Power BI Dashboard
+Five Analytical Sheets
    │
    ▼
-Business Insights
+Executive_Summary_00 Dashboard
    │
    ▼
-Recommendations
+Management Interpretation & Recommendations
+```
+
+### Architecture Summary
+
+```text
+Source Data (CSV)
+   │
+   ▼
+Power Query (Data Preparation)
+   │
+   ▼
+Excel Data Model (Power Pivot / DAX)
+   ├── 01_Revenue_Analysis
+   ├── 02_Geographic_Analysis
+   ├── 03_Product_Analysis
+   ├── 04_Customer_Analysis
+   ├── 05_Transaction_Analysis
+   └── Executive_Summary_00
 ```
 
 ---
 
-## 16. Lessons Learned
+## 17. Technical Lessons Learned & Best Practices
 
-*[To be completed at the end of the project]*
+### Data integrity discipline
 
-- Challenges encountered
-- Limitations identified
-- Improvements for future projects
+The project demonstrated the importance of validating data quality before constructing the analytical model. Exact duplicate removal and explicit retention logic preserved the business dataset without forcing inaccurate assumptions.
+
+### Controlled retention strategy
+
+Rather than deleting records without sufficient evidence, the project retained transactions that were ambiguous but operationally valid. This protected data integrity and supported a realistic business narrative.
+
+### Model readability
+
+The final Excel architecture balances analytical depth with executive readability. KPI cards and slicer-based reporting allow users to engage with the model without losing clarity.
+
+### Documentation quality
+
+Portfolio-grade documentation is essential for translating model output into business communication. Clear separation between observed findings and business implications is critical for maintaining analytical credibility.
 
 ---
 
-## 17. Executive Summary
+## 18. Executive Summary
 
-> *This section will be written at the very end of the project after all findings, recommendations, and conclusions are finalized.*
+This project documents a complete Excel-based retail analytics workflow for the Online Retail Dataset spanning December 2010 to December 2011. The final model produced a verified executive dataset with Net Revenue of $9,771,519.35, Total Recorded Invoices of 25,900, Identified Transacting Customers of 4,336, Active Product SKUs of 3,820, Average Order Value of $395.94, and a Baseline Cancellation Rate of 11.75%.
+
+The analysis shows strong geographic concentration in the United Kingdom, a clear Q4 revenue peak in November, midweek operational intensity, and product contribution concentration among a narrow set of SKUs. The project also frames cancellations as a revenue-protection monitoring opportunity rather than a presumed operational failure.
+
+The workbook architecture combines Power Query, Power Pivot / DAX, and a dynamic executive dashboard to convert raw transaction data into an executive-ready reporting framework. The result is a portfolio-grade analytics document and model that meets the business requirement for transparent, evidence-based operational and commercial insight.
 
 ---
 
-*Document Status: In Progress — The document will be updated continuously as each project phase is completed.*
+*Document Status: Production Portfolio Edition Complete*
